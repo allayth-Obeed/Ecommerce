@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import { ColorModeContext } from "../../theme";
-import { IconButton, Stack, Typography, useTheme, Box, List, ListItemButton, ListItemText, MenuItem, Menu } from "@mui/material";
+import { IconButton, Stack,Container, Typography, useTheme, Box, List, ListItemButton, ListItemText, MenuItem, Menu, ListItem } from "@mui/material";
 import {
   DarkModeOutlined,
   Facebook,
   Instagram,
   LightModeOutlined,
   Twitter,
-  ExpandMore, // Added an icon for better UX
+  ExpandMore,
 } from "@mui/icons-material";
 
 const options = ["AR", "EN"];
@@ -35,7 +35,8 @@ export default function Header1() {
   };
 
   return (
-    <Box sx={{ bgcolor: "#283445", py: "4px", px: 2 }}>
+    <Box sx={{ bgcolor: "#283445", py: "1px", borderBottomRightRadius:5,borderBottomLeftRadius:5 }}>
+      <Container>
       <Stack direction={"row"} alignItems={"center"}>
         <Typography
           sx={{
@@ -68,21 +69,21 @@ export default function Header1() {
           sx={{ color: "#fff" }}
         >
           {theme.palette.mode === "light" ? (
-            <LightModeOutlined fontSize="small" />
+            <LightModeOutlined sx={{fontSize:"16px"}} />
           ) : (
-            <DarkModeOutlined fontSize="small" />
+            <DarkModeOutlined sx={{fontSize:"16px"}} />
           )}
         </IconButton>
 
         {/* Language Selector */}
         <List component="nav" sx={{ p: 0, m: 0 }}>
-          <ListItemButton
+          <ListItem
             id="lock-button"
             aria-haspopup="listbox"
             aria-controls="lock-menu"
             aria-expanded={open ? "true" : undefined}
             onClick={handleClickListItem}
-            sx={{ px: 1 }}
+            sx={{ px: 1 , "&:hover": {cursor:"pointer"}}}
           >
             {/* FIX: Added the primary text so you can actually see the selection */}
             <ListItemText
@@ -91,7 +92,7 @@ export default function Header1() {
               primary={options[selectedIndex]}
             />
             <ExpandMore sx={{ fontSize: "16px", color: "#fff", ml: 1 }} />
-          </ListItemButton>
+          </ListItem>
         </List>
 
         <Menu
@@ -129,6 +130,7 @@ export default function Header1() {
           </IconButton>
         </Stack>
       </Stack>
+      </Container>
     </Box>
   );
 }
