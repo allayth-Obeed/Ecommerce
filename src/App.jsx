@@ -1,6 +1,6 @@
-import Header1 from "./Components/Header/Header1";
-import Header2 from "./components/Header/Header2";
-import Header3 from "./components/Header/Header3";
+import Header1 from "./Components/Header/Header1.jsx";
+import Header2 from "./Components/Header/Header2.jsx";
+import Header3 from "./Components/Header/Header3.jsx";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 
