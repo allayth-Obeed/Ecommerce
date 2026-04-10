@@ -17,19 +17,19 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { alpha, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import { ExpandMore } from "@mui/icons-material";
 import { useTheme } from "@emotion/react";
 
 const options = ["All Categories", "Car", "Clothes", "Electronics"];
 
 const Search = styled("div")(({ theme }) => ({
-  flexGrow:0.6,
+  flexGrow: 0.6,
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   border: "2px solid #777",
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.35),
+    border: "2px solid #222",
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -74,7 +74,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function Header2() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const open = Boolean(anchorEl);
 
   const handleClickListItem = (event) => {
@@ -110,7 +110,7 @@ export default function Header2() {
         sx={{
           display: "flex",
           borderRadius: "50px",
-          justifyContent:"space-between",
+          justifyContent: "space-between",
           height: 42,
           alignItems: "center",
           overflow: "hidden",
@@ -167,7 +167,7 @@ export default function Header2() {
               <MenuItem
                 sx={{ fontSize: "11px" }}
                 key={option}
-                disabled={index === 0}
+                // disabled={index === 0}
                 selected={index === selectedIndex}
                 onClick={(event) => handleMenuItemClick(event, index)}
               >
