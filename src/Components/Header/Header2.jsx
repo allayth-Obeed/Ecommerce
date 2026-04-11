@@ -19,7 +19,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { styled } from "@mui/material/styles";
 import { ExpandMore } from "@mui/icons-material";
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@mui/material/styles";
 
 const options = ["All Categories", "Car", "Clothes", "Electronics"];
 
@@ -51,7 +51,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "white",
+  color: theme.palette.getContrastText(theme.palette.myColor.main),
   "& .MuiInputBase-input": {
     padding: theme.spacing(0.5, 1, 0.5, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,

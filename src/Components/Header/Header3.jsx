@@ -1,22 +1,54 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import WindowIcon from "@mui/icons-material/Window";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
-import { Container, Box, IconButton } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  IconButton,
+  ListItemText,
+  ListItemIcon,
+  Drawer,
+  List,
+  ListItemButton,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useState } from "react";
-
+import { useTheme } from "@mui/material/styles";
+import {
+  SportsEsportsOutlined,
+  ElectricBikeOutlined,
+  LaptopChromebookOutlined,
+  MenuBookOutlined,
+} from "@mui/icons-material";
 export default function Header3() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const open = Boolean(anchorEl);
+
+  const categories = [
+    { label: "bikes", icon: <SportsEsportsOutlined /> },
+    { label: "electronics", icon: <ElectricBikeOutlined /> },
+    { label: "books", icon: <MenuBookOutlined /> },
+    { label: "laptops", icon: <LaptopChromebookOutlined /> },
+  ];
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const toggleDrawer = (nextOpen) => () => {
+    setDrawerOpen(nextOpen);
+  };
+
+  const theme = useTheme();
+
   return (
     <Container
       sx={{
@@ -29,12 +61,12 @@ export default function Header3() {
       <Button
         variant="contained"
         sx={{
-          background: "#232733",
-          color: "#fff",
+          bgcolor: theme.palette.myColor.main,
+          color: theme.palette.getContrastText(theme.palette.myColor.main),
           borderRadius: 2,
           textTransform: "none",
-          pr:"0",
-          minWidth: 180,
+          pr: "0",
+          minWidth: 200,
           display: "flex",
           alignItems: "center",
           boxShadow: "none",
@@ -42,19 +74,47 @@ export default function Header3() {
         onClick={handleClick}
         startIcon={<WindowIcon />}
       >
-        Categories
-        <Box flexGrow="2"/>
-          <KeyboardArrowRightOutlinedIcon
-            style={{
-              transition: "transform 0.3s",
-              transform: open ? "rotate(90deg)" : "rotate(0deg)",
-            }}
-          />
+        <Typography sx={{ textTransform: "capitalize" }}>Categories</Typography>
+        <Box flexGrow="2" />
+        <KeyboardArrowRightOutlinedIcon
+          style={{
+            transition: "transform 0.3s",
+            transform: open ? "rotate(90deg)" : "rotate(0deg)",
+          }}
+        />
       </Button>
 
-      <IconButton sx={{ color: "#fff" }}>
+      <IconButton
+        onClick={toggleDrawer(true)}
+        sx={{
+          color: theme.palette.getContrastText(theme.palette.myColor.main),
+        }}
+      >
         <MenuIcon />
       </IconButton>
+
+      <Drawer anchor="top" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 420,
+            mx: "auto",
+            py: 2,
+          }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          <List>
+            {categories.map((item) => (
+              <ListItemButton key={item.label}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
 
       <Menu
         id="basic-menu"
@@ -66,10 +126,18 @@ export default function Header3() {
             "aria-labelledby": "basic-button",
           },
         }}
+        sx={{
+          textTransform: "capitalize",
+          // @ts-ignore
+          ".MuiPaper-root": { width: 200, bgcolor: theme.palette.myColor.main },
+        }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        {categories.map((item) => (
+          <MenuItem key={item.label} onClick={handleClose}>
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText>{item.label}</ListItemText>
+          </MenuItem>
+        ))}
       </Menu>
     </Container>
   );
