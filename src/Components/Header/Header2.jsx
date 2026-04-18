@@ -139,7 +139,6 @@ export default function Header2() {
               onClick={handleClickListItem}
             >
               <ListItemText
-                className="border"
                 sx={{
                   width: 90,
                   textAlign: "center",

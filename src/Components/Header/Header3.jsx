@@ -1,5 +1,9 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import WindowIcon from "@mui/icons-material/Window";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Close from "@mui/icons-material/Close";
+import Links from "./Links.jsx";
+
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import {
   Container,
@@ -8,9 +12,13 @@ import {
   IconButton,
   ListItemText,
   ListItemIcon,
+  ListItem,
   Drawer,
   List,
   ListItemButton,
+  Accordion,
+  AccordionSummary,
+  useMediaQuery,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -35,6 +43,23 @@ export default function Header3() {
     { label: "laptops", icon: <LaptopChromebookOutlined /> },
   ];
 
+  const Titles = [
+    { s: "1", mainLink: "home", subLink: ["Link1", "Link2", "Link3"] },
+    { s: "2", mainLink: "MegaMenu", subLink: ["Link1", "Link2", "Link3"] },
+    {
+      s: "3",
+      mainLink: "Full Screen Menu",
+      subLink: ["Link1", "Link2", "Link3"],
+    },
+    { s: "4", mainLink: "Pages", subLink: ["Link1", "Link2", "Link3"] },
+    { s: "5", mainLink: "User Accout", subLink: ["Link1", "Link2", "Link3"] },
+    {
+      s: "6",
+      mainLink: "Vendor Account",
+      subLink: ["Link1", "Link2", "Link3"],
+    },
+  ];
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -48,6 +73,8 @@ export default function Header3() {
   };
 
   const theme = useTheme();
+
+  // const matches = useMediaQuery("(min-width:600px)");
 
   return (
     <Container
@@ -83,39 +110,80 @@ export default function Header3() {
           }}
         />
       </Button>
+      {useMediaQuery("(min-width:1200px)") && <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
+        {Titles.map((item) => {
+          return <Links key={item.s} title={item.mainLink} />;
+        })}
+      </Box>}
 
-      <IconButton
-        onClick={toggleDrawer(true)}
-        sx={{
-          color: theme.palette.getContrastText(theme.palette.myColor.main),
-        }}
-      >
-        <MenuIcon />
-      </IconButton>
-
+      {useMediaQuery("(max-width:1200px)") && (
+        <IconButton
+          onClick={toggleDrawer(true)}
+          sx={{
+            color: theme.palette.getContrastText(theme.palette.myColor.main),
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+      )}
       <Drawer anchor="top" open={drawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{
             width: "100%",
             maxWidth: 420,
             mx: "auto",
-            py: 2,
+            mt: 6,
+            py: 4,
+            position: "relative",
           }}
           role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
+          onClick={toggleDrawer(true)}
+          onKeyDown={toggleDrawer(true)}
         >
-          <List>
-            {categories.map((item) => (
-              <ListItemButton key={item.label}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            ))}
-          </List>
+          <IconButton
+            sx={{
+              ":hover": {
+                bgcolor: "#333",
+                color: "red",
+                rotate: "180deg",
+                transition: "0.5s",
+              },
+              position: "absolute",
+              right: 0,
+              top: 0,
+            }}
+            onClick={toggleDrawer(false)}
+          >
+            <Close />
+          </IconButton>
+
+          {Titles.map((item) => {
+            return (
+              <Accordion>
+                <AccordionSummary
+                  key={item}
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panella-content"
+                  id="panella-header"
+                >
+                  <Typography>{item.mainLink}</Typography>
+                </AccordionSummary>
+                <List sx={{ py: 0, my: 0 }}>
+                  {item.subLink.map((link) => {
+                    return (
+                      <ListItem key={link} sx={{ py: 0, my: 0 }}>
+                        <ListItemButton>
+                          <ListItemText primary={link} />
+                        </ListItemButton>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </Accordion>
+            );
+          })}
         </Box>
       </Drawer>
-
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
